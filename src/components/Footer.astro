@@ -1,0 +1,78 @@
+---
+import { company } from '../data/company';
+import { services } from '../data/services';
+import { url, telHref } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-navy-950 text-white/70">
+  <div class="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:py-16">
+    <div class="lg:col-span-1">
+      <div class="flex items-center gap-3">
+        <img src={url('/logo.svg')} alt="" width="32" height="36" class="h-9 w-auto" />
+        <span class="display-heading text-2xl text-white">M L Enterprises</span>
+      </div>
+      <p class="mt-4 max-w-xs text-sm leading-relaxed">
+        Civil construction for railways, roadways, bridges and rail-linked terminals across India. Established {
+          company.establishedYear
+        }, formerly {company.formerName}.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="eyebrow text-cyan-brand">Services</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {
+          services.map((s) => (
+            <li>
+              <a href={`${url('/services')}#${s.slug}`} class="transition-colors hover:text-white">
+                {s.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow text-cyan-brand">Company</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a href={url('/about')} class="transition-colors hover:text-white">About us</a></li>
+        <li><a href={url('/projects')} class="transition-colors hover:text-white">Projects</a></li>
+        <li><a href={url('/clients')} class="transition-colors hover:text-white">Clients</a></li>
+        <li><a href={url('/contact')} class="transition-colors hover:text-white">Contact</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="eyebrow text-cyan-brand">Get in touch</h2>
+      <address class="mt-4 space-y-3 text-sm not-italic leading-relaxed">
+        <p>
+          {company.address.line1}<br />
+          {company.address.line2}<br />
+          {company.address.city}, {company.address.state} – {company.address.pincode}
+        </p>
+        <p class="space-y-1">
+          {
+            company.phones.map((p) => (
+              <a href={telHref(p)} class="block transition-colors hover:text-white">
+                {p}
+              </a>
+            ))
+          }
+        </p>
+        <p>
+          <a href={`mailto:${company.email}`} class="transition-colors hover:text-white">{company.email}</a>
+        </p>
+      </address>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-page flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {company.name}. All rights reserved.</p>
+      <p>Rewari, Haryana · Executing PAN India</p>
+    </div>
+  </div>
+</footer>

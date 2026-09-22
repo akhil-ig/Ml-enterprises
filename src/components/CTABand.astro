@@ -1,0 +1,43 @@
+---
+import { company } from '../data/company';
+import { url, telHref, whatsappHref } from '../lib/url';
+
+type Props = {
+  title?: string;
+  body?: string;
+};
+
+const {
+  title = 'Have a rail or road package to award?',
+  body = 'Send us the scope and we will come back with our execution plan, deployed plant and a delivery programme.',
+} = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-red-brand">
+  <div class="container-page grid gap-8 py-14 md:grid-cols-[1.4fr_1fr] md:items-center lg:py-16">
+    <div data-reveal>
+      <h2 class="display-heading text-4xl text-white sm:text-5xl">{title}</h2>
+      <p class="mt-4 max-w-xl text-lg leading-relaxed text-white/85">{body}</p>
+    </div>
+    <div data-reveal data-reveal-delay="0.1" class="flex flex-col gap-3">
+      <a
+        href={telHref(company.phones[0])}
+        class="display-heading rounded bg-white px-6 py-4 text-center text-xl tracking-wide text-navy-900 transition-transform hover:-translate-y-0.5"
+      >
+        Call {company.phones[0]}
+      </a>
+      <a
+        href={whatsappHref(company.phones[0], 'Hello M L Enterprises, I would like to discuss a project.')}
+        class="display-heading rounded border-2 border-white/70 px-6 py-4 text-center text-xl tracking-wide text-white transition-colors hover:bg-white/10"
+      >
+        WhatsApp us
+      </a>
+      <a
+        href={url('/contact')}
+        class="display-heading rounded border-2 border-white/70 px-6 py-4 text-center text-xl tracking-wide text-white transition-colors hover:bg-white/10"
+      >
+        All contact details
+      </a>
+    </div>
+  </div>
+</section>

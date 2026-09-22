@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { company } from '../data/company';
+import { telHref, whatsappHref } from '../lib/url';
+
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(company.mapQuery)}&output=embed`;
+const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.mapQuery)}`;
+---
+
+<BaseLayout
+  title="Contact"
+  description="Contact M L Enterprises LLP — SCO 204, Sector 5, Rewari, Haryana 123401. Phone +91 98719 83138, +91 98133 50544, email info@mlenterprises.net."
+>
+  <PageHero
+    eyebrow="Contact"
+    title="Talk to us about your package"
+    intro="Call, WhatsApp or email — we will come back with our execution approach, the plant we would deploy and an indicative programme."
+    image="projects/box-culvert-construction.webp"
+  />
+
+  <section class="container-page py-16 lg:py-24">
+    <div class="grid gap-10 lg:grid-cols-3">
+      <div data-reveal class="border-t-4 border-red-brand bg-white p-7">
+        <h2 class="display-heading text-2xl text-navy-900">Call us</h2>
+        <ul class="mt-5 space-y-3">
+          {
+            company.phones.map((phone) => (
+              <li>
+                <a
+                  href={telHref(phone)}
+                  class="display-heading text-3xl text-navy-800 transition-colors hover:text-red-brand"
+                >
+                  {phone}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href={whatsappHref(company.phones[0], 'Hello M L Enterprises, I would like to discuss a project.')}
+          class="display-heading mt-6 inline-block rounded bg-navy-900 px-5 py-3 text-lg tracking-wide text-white transition-colors hover:bg-navy-800"
+        >
+          Message on WhatsApp
+        </a>
+      </div>
+
+      <div data-reveal data-reveal-delay="0.08" class="border-t-4 border-cyan-brand bg-white p-7">
+        <h2 class="display-heading text-2xl text-navy-900">Email us</h2>
+        <a
+          href={`mailto:${company.email}`}
+          class="mt-5 block text-xl font-semibold break-all text-navy-800 transition-colors hover:text-red-brand"
+        >
+          {company.email}
+        </a>
+        <p class="mt-5 text-sm leading-relaxed text-concrete-500">
+          Send the tender documents or scope of work and we will respond with our credentials pack — work orders,
+          completion certificates and references for comparable packages.
+        </p>
+      </div>
+
+      <div data-reveal data-reveal-delay="0.16" class="border-t-4 border-navy-800 bg-white p-7">
+        <h2 class="display-heading text-2xl text-navy-900">Visit the office</h2>
+        <address class="mt-5 leading-relaxed text-navy-800 not-italic">
+          {company.address.line1}<br />
+          {company.address.line2}<br />
+          {company.address.city}, {company.address.state} – {company.address.pincode}<br />
+          {company.address.country}
+        </address>
+        <a
+          href={mapLink}
+          target="_blank"
+          rel="noopener"
+          class="eyebrow mt-5 inline-block text-red-brand">Open in Google Maps →</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <section class="container-page pb-16 lg:pb-24">
+    <SectionHeading eyebrow="Location" title="Sector 5, Rewari" />
+    <div data-reveal class="mt-8 border border-concrete-200 bg-white p-2">
+      <iframe
+        title="Map showing the office of M L Enterprises LLP in Sector 5, Rewari"
+        src={mapSrc}
+        width="100%"
+        height="420"
+        style="border:0"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+</BaseLayout>

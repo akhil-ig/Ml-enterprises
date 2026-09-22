@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CTABand from '../components/CTABand.astro';
+import { projects, ongoingProjects, completedProjects, projectStates } from '../data/projects';
+import { services } from '../data/services';
+import { clients } from '../data/clients';
+
+// CONCOR / RVNL jaise short names se bhi search chale
+const shortNames = new Map(clients.filter((c) => c.short).map((c) => [c.name, c.short as string]));
+const searchText = (p: (typeof projects)[number]) =>
+  `${p.title} ${p.client} ${shortNames.get(p.client) ?? ''} ${p.location} ${p.state}`.toLowerCase();
+
+const sorted = [...projects].sort((a, b) => {
+  if (a.status !== b.status) return a.status === 'ongoing' ? -1 : 1;
+  return (b.year ?? 0) - (a.year ?? 0);
+});
+
+const categoryLabel = new Map(services.map((s) => [s.slug, s.title]));
+
+const statusFilters = [
+  { value: 'all', label: `All (${projects.length})` },
+  { value: 'ongoing', label: `In hand (${ongoingProjects.length})` },
+  { value: 'completed', label: `Completed (${completedProjects.length})` },
+];
+---
+
+<BaseLayout
+  title="Projects"
+  description="52 railway and road infrastructure packages executed and in hand for CONCOR, RVNL, IRCON, Adani Logistics, Kribhco, Hindustan Zinc and others across eight states."
+>
+  <PageHero
+    eyebrow="Projects"
+    title="52 packages, eight states"
+    intro="Nine packages in hand and 43 completed — for government PSUs, logistics terminal operators and mining and metals groups."
+    image="projects/rub-completed.webp"
+  />
+
+  <section class="container-page py-12 lg:py-16">
+    <!-- Filters -->
+    <div class="sticky top-[4.5rem] z-30 -mx-5 border-b border-concrete-200 bg-concrete-50/95 px-5 py-4 backdrop-blur">
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
+          {
+            statusFilters.map((f, i) => (
+              <button
+                type="button"
+                data-status-filter={f.value}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                class="display-heading border border-concrete-200 bg-white px-4 py-2 text-lg text-navy-800 transition-colors aria-pressed:border-navy-900 aria-pressed:bg-navy-900 aria-pressed:text-white"
+              >
+                {f.label}
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="ms-auto flex flex-wrap items-center gap-3">
+          <label class="sr-only" for="category-filter">Filter by work type</label>
+          <select
+            id="category-filter"
+            class="border border-concrete-200 bg-white px-3 py-2.5 text-sm text-navy-800"
+          >
+            <option value="all">All work types</option>
+            {services.map((s) => <option value={s.slug}>{s.title}</option>)}
+          </select>
+
+          <label class="sr-only" for="state-filter">Filter by state</label>
+          <select id="state-filter" class="border border-concrete-200 bg-white px-3 py-2.5 text-sm text-navy-800">
+            <option value="all">All states</option>
+            {projectStates.map((s) => <option value={s}>{s}</option>)}
+          </select>
+
+          <label class="sr-only" for="project-search">Search projects</label>
+          <input
+            id="project-search"
+            type="search"
+            placeholder="Search client, place or scope…"
+            class="w-full border border-concrete-200 bg-white px-3 py-2.5 text-sm text-navy-800 sm:w-64"
+          />
+        </div>
+      </div>
+
+      <p id="result-count" class="mt-3 text-sm text-concrete-400" aria-live="polite">
+        Showing all {projects.length} projects
+      </p>
+    </div>
+
+    <!-- List -->
+    <ol id="project-list" class="mt-8 grid gap-4">
+      {
+        sorted.map((project) => (
+          <li
+            class="project-card border border-concrete-200 bg-white"
+            data-status={project.status}
+            data-category={project.category}
+            data-state={project.state}
+            data-search={searchText(project)}
+          >
+            <article class="grid gap-4 p-6 md:grid-cols-[1fr_auto] md:items-start md:gap-8">
+              <div>
+                <div class="flex flex-wrap items-center gap-3">
+                  <span
+                    class:list={[
+                      'eyebrow px-2.5 py-1 text-[0.7rem]',
+                      project.status === 'ongoing' ? 'bg-red-brand text-white' : 'bg-concrete-100 text-navy-800',
+                    ]}
+                  >
+                    {project.status === 'ongoing' ? 'In progress' : 'Completed'}
+                  </span>
+                  <span class="text-xs tracking-wide text-concrete-400 uppercase">
+                    {categoryLabel.get(project.category)}
+                  </span>
+                  {project.year && <span class="text-xs text-concrete-400">· {project.year}</span>}
+                </div>
+
+                <h2 class="mt-3 text-base leading-relaxed font-semibold text-navy-900 md:text-lg">
+                  {project.title}
+                </h2>
+              </div>
+
+              <dl class="grid gap-2 border-t border-concrete-200 pt-4 text-sm md:w-64 md:border-t-0 md:border-l md:pt-0 md:pl-8">
+                <div>
+                  <dt class="text-xs tracking-wide text-concrete-400 uppercase">Client</dt>
+                  <dd class="font-medium text-navy-800">{project.client}</dd>
+                </div>
+                <div>
+                  <dt class="text-xs tracking-wide text-concrete-400 uppercase">Location</dt>
+                  <dd class="font-medium text-navy-800">
+                    {project.location}, {project.state}
+                  </dd>
+                </div>
+              </dl>
+            </article>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p id="empty-state" class="hidden py-16 text-center text-lg text-concrete-400">
+      No projects match these filters.
+    </p>
+  </section>
+
+  <CTABand
+    title="Want the full credentials pack?"
+    body="Work orders, completion certificates and client references are available on request for any package listed here."
+  />
+</BaseLayout>
+
+<script>
+  const cards = Array.from(document.querySelectorAll('.project-card'));
+  const statusButtons = Array.from(document.querySelectorAll('[data-status-filter]'));
+  const categorySelect = document.getElementById('category-filter');
+  const stateSelect = document.getElementById('state-filter');
+  const search = document.getElementById('project-search');
+  const count = document.getElementById('result-count');
+  const empty = document.getElementById('empty-state');
+
+  let status = 'all';
+
+  function apply() {
+    const category = categorySelect instanceof HTMLSelectElement ? categorySelect.value : 'all';
+    const state = stateSelect instanceof HTMLSelectElement ? stateSelect.value : 'all';
+    const term = search instanceof HTMLInputElement ? search.value.trim().toLowerCase() : '';
+
+    let visible = 0;
+
+    cards.forEach((card) => {
+      if (!(card instanceof HTMLElement)) return;
+      const matches =
+        (status === 'all' || card.dataset.status === status) &&
+        (category === 'all' || card.dataset.category === category) &&
+        (state === 'all' || card.dataset.state === state) &&
+        (term === '' || (card.dataset.search ?? '').includes(term));
+
+      card.hidden = !matches;
+      if (matches) visible += 1;
+    });
+
+    if (count) {
+      count.textContent =
+        visible === cards.length ? `Showing all ${cards.length} projects` : `Showing ${visible} of ${cards.length} projects`;
+    }
+    empty?.classList.toggle('hidden', visible > 0);
+  }
+
+  statusButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!(button instanceof HTMLElement)) return;
+      status = button.dataset.statusFilter ?? 'all';
+      statusButtons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      apply();
+    });
+  });
+
+  categorySelect?.addEventListener('change', apply);
+  stateSelect?.addEventListener('change', apply);
+  search?.addEventListener('input', apply);
+</script>

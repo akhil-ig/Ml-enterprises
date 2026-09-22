@@ -1,0 +1,146 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Brand palette — company profile se li gayi */
+  --color-navy-950: #050d1f;
+  --color-navy-900: #0a1733;
+  --color-navy-800: #10265c;
+  --color-navy-700: #163a86;
+  --color-navy-600: #0b4ea2;
+  --color-navy-500: #1a6ac4;
+
+  --color-cyan-brand: #00aeef;
+  --color-cyan-soft: #c7eafb;
+  --color-indigo-brand: #2e3092;
+  --color-red-brand: #e31e24;
+  --color-red-dark: #b8151b;
+
+  --color-concrete-50: #f5f7fa;
+  --color-concrete-100: #e9edf3;
+  --color-concrete-200: #d6dde8;
+  --color-concrete-400: #8b99ad;
+  --color-concrete-500: #6b7a90;
+
+  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-concrete-50);
+    color: var(--color-navy-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-cyan-brand);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-cyan-brand);
+    outline-offset: 3px;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@utility display-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+@utility eyebrow {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Diagonal red accent used on section labels, profile ke red banners se inspired */
+@utility accent-bar {
+  position: relative;
+  padding-left: 1.125rem;
+}
+
+@utility accent-bar-mark {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 0.3125rem;
+  background: var(--color-red-brand);
+}
+
+/* Scroll reveal — GSAP inhe animate karta hai; JS fail ho to content visible rahe */
+[data-reveal] {
+  opacity: 1;
+}
+
+html.js-reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.js-reveal-ready [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-scroll 38s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
