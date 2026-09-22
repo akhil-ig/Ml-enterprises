@@ -32,7 +32,9 @@ jobs:
           # Custom domain (mlenterprises.net) par shift karte waqt yahan
           # SITE_URL: https://mlenterprises.net aur BASE_PATH: / kar dein.
           SITE_URL: https://akhil-ig.github.io
-          BASE_PATH: /ml-enterprises
+          # Repo name ke exact casing se match karna zaroori hai — Pages project site
+          # ka URL segment repo name hi hota hai.
+          BASE_PATH: /Ml-enterprises
 
       - uses: actions/upload-pages-artifact@v3
         with:

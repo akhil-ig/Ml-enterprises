@@ -9,7 +9,7 @@ and rail-linked terminals, established 1972, formerly M/s. Sis Ram Bir Singh.
 
 - Astro 5 + Tailwind CSS v4 (`@tailwindcss/vite` — tokens in `src/styles/global.css` under `@theme`, NO
   tailwind.config file) + GSAP ScrollTrigger + `@astrojs/sitemap`
-- `npm run dev` → port 5173 is not used; Astro serves on **4321** at `/ml-enterprises/`
+- `npm run dev` → port 5173 is not used; Astro serves on **4321** at `/Ml-enterprises/`
 - `npm run build` → `dist/`
 - All content lives in `src/data/` (`company.ts`, `services.ts`, `projects.ts`, `clients.ts`) — edit content
   there, not in components.

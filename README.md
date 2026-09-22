@@ -3,7 +3,7 @@
 Static marketing site for **M L Enterprises LLP**, a Rewari (Haryana) civil construction firm working on
 railway and road infrastructure across India since 1972.
 
-Live at **https://akhil-ig.github.io/ml-enterprises/**
+Live at **https://akhil-ig.github.io/Ml-enterprises/**
 
 ## Stack
 
@@ -18,7 +18,7 @@ Live at **https://akhil-ig.github.io/ml-enterprises/**
 
 ```bash
 npm install
-npm run dev      # http://localhost:4321/ml-enterprises/
+npm run dev      # http://localhost:4321/Ml-enterprises/
 npm run build    # -> dist/
 npm run preview
 ```
