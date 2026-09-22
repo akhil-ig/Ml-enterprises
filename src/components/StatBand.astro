@@ -1,0 +1,20 @@
+---
+import { stats } from '../data/company';
+---
+
+<section class="border-y border-navy-800/20 bg-navy-900">
+  <div class="container-page grid grid-cols-2 gap-px lg:grid-cols-4">
+    {
+      stats.map((stat, i) => (
+        <div data-reveal data-reveal-delay={i * 0.08} class="px-2 py-8 text-center lg:py-12">
+          <p class="display-heading text-5xl text-cyan-brand lg:text-6xl">
+            <span data-count={stat.value}>{stat.value}</span>
+            {stat.suffix}
+          </p>
+          <p class="display-heading mt-2 text-lg text-white lg:text-xl">{stat.label}</p>
+          <p class="mt-1 text-xs text-white/50">{stat.note}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>

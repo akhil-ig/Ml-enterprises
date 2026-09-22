@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTABand from '../components/CTABand.astro';
+import { clients, clientSectors } from '../data/clients';
+import { projects } from '../data/projects';
+
+const projectsFor = (name: string) =>
+  projects.filter((p) => p.client === name || p.client.startsWith(name.replace(/ Ltd$/, ''))).length;
+---
+
+<BaseLayout
+  title="Clients"
+  description="M L Enterprises has executed work for CONCOR, RVNL, IRCON, HRIDC, North Western Railway, HURL, Adani Logistics, Kribhco, Vedanta, Hindustan Zinc, Gateway Rail Freight and more."
+>
+  <PageHero
+    eyebrow="Clients"
+    title="Who we build for"
+    intro="Government PSUs, rail-linked terminal operators, and mining and metals groups — repeat work across two decades."
+    image="projects/icd-container-yard.webp"
+  />
+
+  <section class="container-page py-16 lg:py-24">
+    {
+      clientSectors.map((sector, si) => (
+        <div class:list={[si > 0 && 'mt-16']}>
+          <SectionHeading eyebrow={`0${si + 1}`} title={sector} />
+
+          <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {clients
+              .filter((c) => c.sector === sector)
+              .map((client, i) => {
+                const n = projectsFor(client.name);
+                return (
+                  <li data-reveal data-reveal-delay={(i % 3) * 0.06} class="border border-concrete-200 bg-white p-7">
+                    {client.short && <p class="display-heading text-3xl text-cyan-brand">{client.short}</p>}
+                    <p
+                      class:list={[
+                        'text-navy-900',
+                        client.short ? 'mt-1 text-sm text-concrete-500' : 'display-heading text-2xl',
+                      ]}
+                    >
+                      {client.name}
+                    </p>
+                    {n > 0 && (
+                      <p class="mt-4 border-t border-concrete-200 pt-3 text-xs tracking-wide text-concrete-400 uppercase">
+                        {n} project{n === 1 ? '' : 's'} in our record
+                      </p>
+                    )}
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="bg-navy-900 py-16 lg:py-20">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="References"
+        title="Work orders and completion certificates on request"
+        intro="Every package in our record is backed by the awarding authority's work order and, where the work is closed, a completion certificate. We are happy to share these for any project relevant to your tender."
+        tone="light"
+      />
+    </div>
+  </section>
+
+  <CTABand />
+</BaseLayout>

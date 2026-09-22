@@ -1,0 +1,116 @@
+---
+import { company } from '../data/company';
+import { url, telHref } from '../lib/url';
+
+const nav = [
+  { label: 'Home', href: url('/') },
+  { label: 'About', href: url('/about') },
+  { label: 'Services', href: url('/services') },
+  { label: 'Projects', href: url('/projects') },
+  { label: 'Clients', href: url('/clients') },
+  { label: 'Contact', href: url('/contact') },
+];
+
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return h === current;
+};
+---
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 border-b border-white/10 bg-navy-900/95 backdrop-blur transition-[padding,background] duration-300"
+>
+  <div class="container-page flex items-center justify-between gap-4 py-3 md:py-4">
+    <a href={url('/')} class="flex items-center gap-3 text-white">
+      <img src={url('/logo.svg')} alt="" width="34" height="38" class="h-9 w-auto" />
+      <span class="leading-none">
+        <span class="display-heading block text-xl tracking-wide md:text-2xl">M L Enterprises</span>
+        <span class="block text-[0.6rem] font-semibold tracking-[0.28em] text-cyan-brand uppercase">
+          LLP · Since {company.establishedYear}
+        </span>
+      </span>
+    </a>
+
+    <nav aria-label="Main" class="hidden items-center gap-1 lg:flex">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'display-heading rounded px-3 py-2 text-lg tracking-wide transition-colors',
+              isActive(item.href) ? 'text-cyan-brand' : 'text-white/80 hover:text-white',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={telHref(company.phones[0])}
+        class="display-heading ml-3 rounded bg-red-brand px-5 py-2.5 text-lg tracking-wide text-white transition-colors hover:bg-red-dark"
+      >
+        Call now
+      </a>
+    </nav>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      class="flex h-11 w-11 items-center justify-center rounded border border-white/20 text-white lg:hidden"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-nav" aria-label="Mobile" class="hidden border-t border-white/10 bg-navy-900 lg:hidden">
+    <div class="container-page flex flex-col py-3">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'display-heading border-b border-white/5 py-3 text-xl tracking-wide',
+              isActive(item.href) ? 'text-cyan-brand' : 'text-white/85',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={telHref(company.phones[0])}
+        class="display-heading mt-4 rounded bg-red-brand px-5 py-3 text-center text-xl tracking-wide text-white"
+      >
+        Call {company.phones[0]}
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-nav');
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    menu?.classList.toggle('hidden', open);
+  });
+
+  const header = document.getElementById('site-header');
+  const onScroll = () => {
+    header?.classList.toggle('shadow-lg', window.scrollY > 8);
+    header?.classList.toggle('shadow-black/30', window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

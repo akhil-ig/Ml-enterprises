@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://akhil-ig.github.io/ml-enterprises/sitemap-index.xml
