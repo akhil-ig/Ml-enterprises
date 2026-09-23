@@ -1,30 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Brand palette — company profile se li gayi */
-  --color-navy-950: #050d1f;
-  --color-navy-900: #0a1733;
-  --color-navy-800: #10265c;
-  --color-navy-700: #163a86;
-  --color-navy-600: #0b4ea2;
-  --color-navy-500: #1a6ac4;
+  /* Brand palette — naye logo se li gayi (red #e21d26, ink #2a2927) */
+  --color-brand-red: #e21d26;
+  --color-brand-red-dark: #b8151c;
+  --color-brand-red-soft: #fdf2f2;
 
-  --color-cyan-brand: #00aeef;
-  --color-cyan-soft: #c7eafb;
-  --color-indigo-brand: #2e3092;
-  --color-red-brand: #e31e24;
-  --color-red-dark: #b8151b;
+  --color-ink-950: #121110;
+  --color-ink-900: #1c1b1a;
+  --color-ink-800: #2a2927;
+  --color-ink-700: #3d3b38;
+  --color-ink-500: #6b6763;
+  --color-ink-400: #8d8884;
 
-  --color-concrete-50: #f5f7fa;
-  --color-concrete-100: #e9edf3;
-  --color-concrete-200: #d6dde8;
-  --color-concrete-400: #8b99ad;
-  --color-concrete-500: #6b7a90;
+  --color-sand-50: #faf9f8;
+  --color-sand-100: #f2f0ed;
+  --color-sand-200: #e3dfda;
+  --color-sand-300: #cdc7c0;
 
-  --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --font-display: 'Saira Condensed', 'Arial Narrow', sans-serif;
   --font-sans: 'Inter', system-ui, sans-serif;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
@@ -34,27 +29,27 @@
   }
 
   body {
-    background: var(--color-concrete-50);
-    color: var(--color-navy-900);
+    background: #fff;
+    color: var(--color-ink-900);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
   ::selection {
-    background: var(--color-cyan-brand);
+    background: var(--color-brand-red);
     color: #fff;
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-cyan-brand);
+    outline: 3px solid var(--color-brand-red);
     outline-offset: 3px;
   }
 }
 
 @utility container-page {
   width: 100%;
-  max-width: 80rem;
+  max-width: 78rem;
   margin-inline: auto;
   padding-inline: 1.25rem;
 }
@@ -62,43 +57,38 @@
 @utility display-heading {
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.01em;
+  line-height: 1;
+  letter-spacing: 0.005em;
   text-transform: uppercase;
 }
 
 @utility eyebrow {
-  font-family: var(--font-display);
+  font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-/* Diagonal red accent used on section labels, profile ke red banners se inspired */
-@utility accent-bar {
-  position: relative;
-  padding-left: 1.125rem;
+/* Blueprint grid — flat backgrounds ko halka sa engineering texture deta hai */
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(to right, rgb(0 0 0 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 0 0 / 0.045) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
 }
 
-@utility accent-bar-mark {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.15em;
-  bottom: 0.15em;
-  width: 0.3125rem;
-  background: var(--color-red-brand);
+@utility bg-blueprint-dark {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
 }
 
 /* Scroll reveal — GSAP inhe animate karta hai; JS fail ho to content visible rahe */
-[data-reveal] {
-  opacity: 1;
-}
-
 html.js-reveal-ready [data-reveal] {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(24px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -130,7 +120,7 @@ html.js-reveal-ready [data-reveal] {
 }
 
 .marquee-track {
-  animation: marquee-scroll 38s linear infinite;
+  animation: marquee-scroll 42s linear infinite;
 }
 
 .marquee-track:hover {

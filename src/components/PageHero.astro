@@ -8,28 +8,27 @@ type Props = {
   image?: string;
 };
 
-const { eyebrow, title, intro, image = 'projects/icd-container-yard.webp' } = Astro.props;
+const { eyebrow, title, intro, image = 'gallery/yard-wide-paving.webp' } = Astro.props;
 ---
 
-<section class="relative isolate overflow-hidden bg-navy-900">
+<section class="relative isolate overflow-hidden bg-ink-900">
   <img
     src={url(`/${image}`)}
     alt=""
     aria-hidden="true"
-    class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25"
+    class="absolute inset-0 -z-10 h-full w-full object-cover opacity-30"
   />
-  <div
-    class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-900/90 to-navy-900/40"
-    aria-hidden="true"
-  >
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-ink-950 via-ink-950/90 to-ink-900/50" aria-hidden="true">
   </div>
 
-  <div class="container-page py-16 md:py-24">
-    <p class="eyebrow flex items-center gap-3 text-cyan-brand">
-      <span class="inline-block h-[3px] w-8 bg-current"></span>
+  <div class="container-page py-14 md:py-20">
+    <p class="eyebrow flex items-center gap-3 text-brand-red">
+      <span class="inline-block h-[3px] w-7 bg-current"></span>
       {eyebrow}
     </p>
-    <h1 class="display-heading mt-4 max-w-4xl text-[2.5rem] text-white sm:text-6xl lg:text-7xl">{title}</h1>
-    {intro && <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/75">{intro}</p>}
+    <h1 class="display-heading mt-4 max-w-4xl text-[2.15rem] text-white sm:text-5xl lg:text-6xl">{title}</h1>
+    {intro && <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/70">{intro}</p>}
   </div>
+
+  <div class="h-1 w-full bg-brand-red"></div>
 </section>

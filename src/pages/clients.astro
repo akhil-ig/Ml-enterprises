@@ -3,28 +3,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTABand from '../components/CTABand.astro';
-import { clients, clientSectors } from '../data/clients';
+import { clients, clientSectors, keyClientNames } from '../data/clients';
 import { projects } from '../data/projects';
 
-const projectsFor = (name: string) =>
-  projects.filter((p) => p.client === name || p.client.startsWith(name.replace(/ Ltd$/, ''))).length;
+const projectsFor = (name: string) => projects.filter((p) => p.client === name).length;
 ---
 
 <BaseLayout
   title="Clients"
-  description="M L Enterprises has executed work for CONCOR, RVNL, IRCON, HRIDC, North Western Railway, HURL, Adani Logistics, Kribhco, Vedanta, Hindustan Zinc, Gateway Rail Freight and more."
+  description="M L Enterprises LLP executes for the Adani Group, DP World, UltraTech Cement, Pristine Mega Logistics Park, Kanpur Logistics Park, RVNL, IRCON and HURL."
 >
   <PageHero
     eyebrow="Clients"
     title="Who we build for"
-    intro="Government PSUs, rail-linked terminal operators, and mining and metals groups — repeat work across two decades."
-    image="projects/icd-container-yard.webp"
+    intro="Logistics majors, government PSUs and industrial groups — with repeat packages awarded across multiple sites."
+    image="gallery/team-project-group.webp"
   />
 
-  <section class="container-page py-16 lg:py-24">
+  <!-- Key clients -->
+  <section class="bg-blueprint bg-sand-50 py-16 lg:py-20">
+    <div class="container-page">
+      <SectionHeading eyebrow="Key clients" title="The names on our work orders" />
+      <ul class="mt-10 grid gap-px bg-sand-200 sm:grid-cols-2 lg:grid-cols-5">
+        {
+          keyClientNames.map((name, i) => (
+            <li
+              data-reveal
+              data-reveal-delay={(i % 5) * 0.06}
+              class="flex min-h-32 items-center justify-center bg-white p-6 text-center"
+            >
+              <span class="display-heading text-xl text-ink-900">{name}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- By sector -->
+  <section class="container-page py-16 lg:py-20">
     {
       clientSectors.map((sector, si) => (
-        <div class:list={[si > 0 && 'mt-16']}>
+        <div class:list={[si > 0 && 'mt-14']}>
           <SectionHeading eyebrow={`0${si + 1}`} title={sector} />
 
           <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -33,18 +53,18 @@ const projectsFor = (name: string) =>
               .map((client, i) => {
                 const n = projectsFor(client.name);
                 return (
-                  <li data-reveal data-reveal-delay={(i % 3) * 0.06} class="border border-concrete-200 bg-white p-7">
-                    {client.short && <p class="display-heading text-3xl text-cyan-brand">{client.short}</p>}
+                  <li data-reveal data-reveal-delay={(i % 3) * 0.06} class="border border-sand-200 bg-white p-6">
+                    {client.short && <p class="display-heading text-2xl text-brand-red">{client.short}</p>}
                     <p
                       class:list={[
-                        'text-navy-900',
-                        client.short ? 'mt-1 text-sm text-concrete-500' : 'display-heading text-2xl',
+                        'text-ink-900',
+                        client.short ? 'mt-1 text-sm text-ink-500' : 'display-heading text-xl',
                       ]}
                     >
                       {client.name}
                     </p>
                     {n > 0 && (
-                      <p class="mt-4 border-t border-concrete-200 pt-3 text-xs tracking-wide text-concrete-400 uppercase">
+                      <p class="mt-4 border-t border-sand-200 pt-3 text-xs tracking-wide text-ink-400 uppercase">
                         {n} project{n === 1 ? '' : 's'} in our record
                       </p>
                     )}
@@ -57,7 +77,7 @@ const projectsFor = (name: string) =>
     }
   </section>
 
-  <section class="bg-navy-900 py-16 lg:py-20">
+  <section class="bg-ink-900 py-16 lg:py-20">
     <div class="container-page">
       <SectionHeading
         eyebrow="References"
