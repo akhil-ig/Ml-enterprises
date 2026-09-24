@@ -3,46 +3,62 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import StatBand from '../components/StatBand.astro';
 import CTABand from '../components/CTABand.astro';
-import { company, capabilities } from '../data/company';
+import { company, strengths, vision } from '../data/company';
 import { services } from '../data/services';
-import { featuredClientNames } from '../data/clients';
+import { marqueeNames, keyClientNames } from '../data/clients';
 import { ongoingProjects } from '../data/projects';
+import { gallery } from '../data/gallery';
 import { url, telHref } from '../lib/url';
 
 const featured = ongoingProjects.slice(0, 3);
-const marquee = [...featuredClientNames, ...featuredClientNames];
+const marquee = [...marqueeNames, ...marqueeNames];
+const galleryPreview = [
+  'silo-bank-completed.webp',
+  'yard-wide-paving.webp',
+  'building-admin-block.webp',
+  'railway-track-formation.webp',
+  'civil-concrete-pour.webp',
+  'team-group-sunset.webp',
+];
+const previewAlt = new Map(gallery.map((g) => [g.file, g.alt]));
 ---
 
 <BaseLayout
   title={company.name}
-  description="M L Enterprises LLP — civil construction for railways, roadways, bridges and rail-linked terminals across India. Established 1972, based at Rewari, Haryana."
+  description="M L Enterprises LLP — civil works, PEB buildings, railway siding, OHE, yard development, P-Way, electrical and fire fighting systems. Executing for Adani, DP World and UltraTech Cement across India since 2008."
 >
   <!-- Hero -->
-  <section class="relative isolate overflow-hidden bg-navy-900">
-    <div class="container-page grid items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
-      <div>
-        <p class="eyebrow flex items-center gap-3 text-cyan-brand">
-          <span class="inline-block h-[3px] w-8 bg-current"></span>
-          Civil construction · Est. {company.establishedYear}
+  <section class="relative isolate overflow-hidden bg-ink-950">
+    <img
+      src={url('/gallery/yard-drainage-works.webp')}
+      alt=""
+      aria-hidden="true"
+      class="absolute inset-0 -z-10 h-full w-full object-cover opacity-25"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-ink-950 via-ink-950/95 to-ink-900/70" aria-hidden="true">
+    </div>
+
+    <div class="container-page grid items-center gap-12 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:py-24">
+      <div class="min-w-0">
+        <p class="eyebrow flex items-center gap-3 text-brand-red">
+          <span class="inline-block h-[3px] w-7 bg-current"></span>
+          Civil infrastructure contracting · Est. {company.establishedYear}
         </p>
-        <h1 class="display-heading mt-5 text-[2.5rem] text-white sm:text-6xl lg:text-7xl xl:text-[5.2rem]">
-          Building India&rsquo;s <span class="text-cyan-brand">rail</span> &amp; <span class="text-cyan-brand"
-            >road</span
-          > infrastructure
+        <h1 class="display-heading mt-5 text-[2.15rem] text-white sm:text-5xl lg:text-6xl xl:text-7xl">
+          Railway siding, civil &amp; <span class="text-brand-red">PEB</span> infrastructure
         </h1>
-        <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/75">
-          {company.intro}
-        </p>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-white/70">{company.intro}</p>
+
         <div class="mt-8 flex flex-wrap gap-3">
           <a
             href={url('/projects')}
-            class="display-heading w-full rounded bg-red-brand px-7 py-4 text-center text-xl tracking-wide text-white transition-colors hover:bg-red-dark sm:w-auto"
+            class="display-heading w-full rounded bg-brand-red px-7 py-4 text-center text-xl text-white transition-colors hover:bg-brand-red-dark sm:w-auto"
           >
             View our projects
           </a>
           <a
             href={telHref(company.phones[0])}
-            class="display-heading w-full rounded border-2 border-white/30 px-7 py-4 text-center text-xl tracking-wide text-white transition-colors hover:border-white hover:bg-white/5 sm:w-auto"
+            class="display-heading w-full rounded border-2 border-white/25 px-7 py-4 text-center text-xl text-white transition-colors hover:border-white hover:bg-white/5 sm:w-auto"
           >
             Talk to us
           </a>
@@ -50,133 +66,158 @@ const marquee = [...featuredClientNames, ...featuredClientNames];
       </div>
 
       <div class="relative">
-        <div class="absolute -inset-3 -z-10 bg-cyan-brand/20 blur-2xl" aria-hidden="true"></div>
         <img
-          src={url('/projects/rub-completed.webp')}
-          alt="A completed road under bridge built by M L Enterprises, with the railway track running through it"
-          width="1067"
-          height="716"
+          src={url('/gallery/peb-warehouse-exterior.webp')}
+          alt="A completed pre-engineered warehouse building delivered by M L Enterprises"
+          width="686"
+          height="435"
           class="w-full border-4 border-white/10 object-cover shadow-2xl"
           fetchpriority="high"
         />
-        <div class="absolute -bottom-5 -left-3 bg-red-brand px-5 py-3 sm:-left-5">
-          <p class="display-heading text-2xl text-white sm:text-3xl">Concept to commissioning</p>
+        <div class="absolute -bottom-4 -left-3 bg-brand-red px-5 py-3 sm:-left-5">
+          <p class="display-heading text-2xl text-white sm:text-3xl">{company.tagline}</p>
         </div>
       </div>
     </div>
+
+    <div class="h-1 w-full bg-brand-red"></div>
   </section>
 
   <StatBand />
 
-  <!-- Client marquee -->
-  <section class="overflow-hidden border-b border-concrete-200 bg-white py-8">
-    <p class="eyebrow container-page text-concrete-400">Trusted by</p>
+  <!-- Key clients -->
+  <section class="overflow-hidden border-b border-sand-200 bg-white py-8">
+    <p class="eyebrow container-page text-ink-400">Executing for</p>
     <div class="mt-5 flex w-max marquee-track gap-10 px-5">
       {
         marquee.map((name) => (
-          <span class="display-heading shrink-0 text-2xl whitespace-nowrap text-navy-800/70">{name}</span>
+          <span class="display-heading shrink-0 text-2xl whitespace-nowrap text-ink-800/60">{name}</span>
         ))
       }
     </div>
   </section>
 
   <!-- Services -->
-  <section class="container-page py-16 lg:py-24">
+  <section class="container-page py-16 lg:py-20">
     <SectionHeading
       eyebrow="What we execute"
-      title="From survey to commissioning"
-      intro="Seven core capabilities that cover a railway or road package end to end — so a single contractor carries the programme instead of a chain of sub-agencies."
+      title="Eight disciplines, one contractor"
+      intro="Civil through to OHE and fire fighting — every discipline of a railway siding or industrial package handled in-house, so interfaces and accountability stay in one place."
     />
 
-    <div class="mt-12 grid gap-px bg-concrete-200 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-12 grid gap-px bg-sand-200 sm:grid-cols-2 lg:grid-cols-4">
       {
         services.map((service, i) => (
           <a
             href={`${url('/services')}#${service.slug}`}
             data-reveal
-            data-reveal-delay={(i % 3) * 0.08}
-            class="group flex flex-col bg-concrete-50 p-7 transition-colors hover:bg-white"
+            data-reveal-delay={(i % 4) * 0.06}
+            class="group flex flex-col bg-white p-6 transition-colors hover:bg-sand-50"
           >
-            <span class="display-heading text-5xl text-concrete-200 transition-colors group-hover:text-cyan-brand">
+            <span class="display-heading text-4xl text-sand-300 transition-colors group-hover:text-brand-red">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <h3 class="display-heading mt-4 text-2xl text-navy-900">{service.title}</h3>
-            <p class="mt-3 flex-1 text-sm leading-relaxed text-concrete-500">{service.short}</p>
-            <span class="eyebrow mt-5 text-red-brand">Read more →</span>
+            <h3 class="display-heading mt-3 text-xl text-ink-900">{service.title}</h3>
+            <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-500">{service.short}</p>
+            <span class="eyebrow mt-5 text-brand-red">Read more →</span>
           </a>
         ))
       }
-      <div class="flex flex-col justify-center bg-navy-900 p-7 sm:col-span-2 lg:col-span-2">
-        <p class="display-heading text-3xl text-white">Need the whole package on EPC?</p>
-        <p class="mt-3 max-w-lg text-sm leading-relaxed text-white/70">
-          We have delivered concept-to-commissioning scopes with our own plant, laboratory and survey teams.
-        </p>
-        <a href={url('/services')} class="eyebrow mt-5 text-cyan-brand">See all services →</a>
+    </div>
+  </section>
+
+  <!-- Vision strip -->
+  <section class="bg-blueprint-dark bg-ink-900 py-14 lg:py-16">
+    <div class="container-page">
+      <div data-reveal class="mx-auto max-w-4xl border-l-4 border-brand-red pl-6 lg:pl-10">
+        <p class="eyebrow text-brand-red">Our vision</p>
+        <p class="mt-4 text-2xl leading-snug font-medium text-white lg:text-3xl">{vision}</p>
       </div>
     </div>
   </section>
 
   <!-- Why us -->
-  <section class="bg-navy-900 py-16 lg:py-24">
-    <div class="container-page">
-      <SectionHeading
-        eyebrow="Why M L Enterprises"
-        title="Capability we own, not capability we hire"
-        intro="Five decades of railway work has left us with the plant, the laboratory and the people to hold a programme date."
-        tone="light"
-      />
-
-      <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-        {
-          capabilities.map((cap, i) => (
-            <div data-reveal data-reveal-delay={(i % 3) * 0.08} class="border-t-2 border-cyan-brand/40 pt-5">
-              <h3 class="display-heading text-2xl text-white">{cap.title}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-white/65">{cap.body}</p>
-            </div>
-          ))
-        }
-      </div>
+  <section class="container-page py-16 lg:py-20">
+    <SectionHeading eyebrow="Why M L Enterprises" title="Capability that stays on site" />
+    <div class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      {
+        strengths.map((item, i) => (
+          <div data-reveal data-reveal-delay={(i % 3) * 0.08} class="border-t border-sand-300 pt-5">
+            <h3 class="display-heading text-xl text-ink-900">{item.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-ink-500">{item.body}</p>
+          </div>
+        ))
+      }
     </div>
   </section>
 
-  <!-- Featured ongoing work -->
-  <section class="container-page py-16 lg:py-24">
+  <!-- Gallery preview -->
+  <section class="bg-sand-50 py-16 lg:py-20">
+    <div class="container-page">
+      <div class="flex flex-wrap items-end justify-between gap-6">
+        <SectionHeading eyebrow="From our sites" title="Work in progress" />
+        <a
+          href={url('/gallery')}
+          data-reveal
+          class="display-heading rounded border-2 border-ink-900 px-6 py-3 text-lg text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
+        >
+          Full gallery
+        </a>
+      </div>
+
+      <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          galleryPreview.map((file, i) => (
+            <li data-reveal data-reveal-delay={(i % 3) * 0.06} class="aspect-4/3 overflow-hidden bg-sand-100">
+              <img
+                src={url(`/gallery/${file}`)}
+                alt={previewAlt.get(file) ?? ''}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- Work in hand -->
+  <section class="container-page py-16 lg:py-20">
     <div class="flex flex-wrap items-end justify-between gap-6">
       <SectionHeading
         eyebrow="Currently on site"
         title="Work in hand"
-        intro="Nine packages are under execution right now for logistics, PSU and corporate clients."
+        intro={`Six packages are under execution for ${keyClientNames.slice(0, 3).join(', ')} and others.`}
       />
       <a
         href={url('/projects')}
         data-reveal
-        class="display-heading rounded border-2 border-navy-900 px-6 py-3 text-lg tracking-wide text-navy-900 transition-colors hover:bg-navy-900 hover:text-white"
+        class="display-heading rounded border-2 border-ink-900 px-6 py-3 text-lg text-ink-900 transition-colors hover:bg-ink-900 hover:text-white"
       >
-        All 52 projects
+        All projects
       </a>
     </div>
 
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       {
         featured.map((project, i) => (
-          <article
-            data-reveal
-            data-reveal-delay={i * 0.08}
-            class="flex flex-col border border-concrete-200 bg-white p-6"
-          >
-            <span class="eyebrow text-red-brand">In progress</span>
-            <h3 class="mt-3 flex-1 text-base leading-relaxed font-semibold text-navy-900">{project.title}</h3>
-            <dl class="mt-5 space-y-1 border-t border-concrete-200 pt-4 text-sm">
+          <article data-reveal data-reveal-delay={i * 0.08} class="flex flex-col border border-sand-200 bg-white p-6">
+            <span class="eyebrow bg-brand-red px-2.5 py-1 text-[0.65rem] text-white self-start">In progress</span>
+            <h3 class="mt-4 flex-1 text-base leading-relaxed font-semibold text-ink-900">{project.title}</h3>
+            <dl class="mt-5 space-y-1 border-t border-sand-200 pt-4 text-sm">
               <div class="flex gap-2">
-                <dt class="text-concrete-400">Client</dt>
-                <dd class="font-medium text-navy-800">{project.client}</dd>
+                <dt class="text-ink-400">Client</dt>
+                <dd class="font-medium text-ink-800">{project.client}</dd>
               </div>
-              <div class="flex gap-2">
-                <dt class="text-concrete-400">Location</dt>
-                <dd class="font-medium text-navy-800">
-                  {project.location}, {project.state}
-                </dd>
-              </div>
+              {project.location && (
+                <div class="flex gap-2">
+                  <dt class="text-ink-400">Location</dt>
+                  <dd class="font-medium text-ink-800">
+                    {project.location}, {project.state}
+                  </dd>
+                </div>
+              )}
             </dl>
           </article>
         ))

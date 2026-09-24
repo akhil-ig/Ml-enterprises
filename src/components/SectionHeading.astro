@@ -10,40 +10,26 @@ type Props = {
 const { eyebrow, title, intro, tone = 'dark', align = 'left' } = Astro.props;
 ---
 
-<div
-  data-reveal
-  class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center']}
->
+<div data-reveal class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center']}>
   {
     eyebrow && (
-      <p
-        class:list={[
-          'eyebrow flex items-center gap-3',
-          align === 'center' && 'justify-center',
-          tone === 'dark' ? 'text-red-brand' : 'text-cyan-brand',
-        ]}
-      >
-        <span class="inline-block h-[3px] w-8 bg-current" />
+      <p class:list={['eyebrow flex items-center gap-3 text-brand-red', align === 'center' && 'justify-center']}>
+        <span class="inline-block h-[3px] w-7 bg-current" />
         {eyebrow}
       </p>
     )
   }
   <h2
     class:list={[
-      'display-heading mt-3 text-4xl sm:text-5xl lg:text-[3.4rem]',
-      tone === 'dark' ? 'text-navy-900' : 'text-white',
+      'display-heading mt-4 text-4xl sm:text-5xl lg:text-[3.25rem]',
+      tone === 'dark' ? 'text-ink-900' : 'text-white',
     ]}
   >
     {title}
   </h2>
   {
     intro && (
-      <p
-        class:list={[
-          'mt-5 text-lg leading-relaxed',
-          tone === 'dark' ? 'text-concrete-500' : 'text-white/70',
-        ]}
-      >
+      <p class:list={['mt-5 text-lg leading-relaxed', tone === 'dark' ? 'text-ink-500' : 'text-white/70']}>
         {intro}
       </p>
     )

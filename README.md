@@ -1,9 +1,10 @@
 # M L Enterprises LLP — website
 
-Static marketing site for **M L Enterprises LLP**, a Rewari (Haryana) civil construction firm working on
-railway and road infrastructure across India since 1972.
+Static marketing site for **M L Enterprises LLP** — a Rewari (Haryana) civil infrastructure contracting firm
+working on civil and PEB buildings, railway siding, OHE, yard development, P-Way, electrical and fire fighting
+systems. Established 2008, restructured as an LLP in 2020.
 
-Live at **https://akhil-ig.github.io/Ml-enterprises/**
+Tagline: *Construct for Future*
 
 ## Stack
 
@@ -29,46 +30,50 @@ All site content lives in `src/data/` — edit there, not in the components:
 
 | File | Holds |
 | --- | --- |
-| `company.ts` | Name, address, phones, email, stats, about copy, capabilities |
-| `services.ts` | The 7 execution capabilities |
-| `projects.ts` | All 52 projects (9 in hand, 43 completed) |
-| `clients.ts` | Client list grouped by sector |
+| `company.ts` | Address, phones, emails, GSTIN, Udyam, stats, about copy, vision, mission, HSE and QA/QC policies, strengths |
+| `leadership.ts` | The three LLP partners and their responsibilities |
+| `services.ts` | The 8 disciplines |
+| `projects.ts` | 41 projects (6 in hand, 35 completed) |
+| `clients.ts` | Clients grouped by sector, plus the key-client and marquee lists |
+| `gallery.ts` | The 30 site photographs with captions and categories |
 
 **Contract values are deliberately not published.** They exist in the company profile PDF but the site shows
 only scope, client, location and status.
 
 ## Pages
 
-`/` · `/about` · `/services` · `/projects` (filter by status, work type, state + free text search) ·
+`/` · `/about` (vision, mission, partners, organisation chart, HSE and QA/QC policies) · `/services` ·
+`/projects` (filter by status, work type, state + free text search) · `/gallery` (filter by category) ·
 `/clients` · `/contact`
 
-There is no contact form — the site is static, so contact is via click-to-call, WhatsApp and mailto.
+There is no contact form yet — the site is static, so contact is via click-to-call, WhatsApp and mailto.
 
-## Deployment
+## Brand
 
-`.github/workflows/deploy.yml` builds and deploys to GitHub Pages on every push to `main`.
+Taken from the logo in the 2026 company profile: red `#e21d26`, ink `#2a2927`, warm neutral greys.
+Display type is Saira Condensed, body is Inter.
 
-### Moving to a custom domain
-
-The client already uses the `mlenterprises.net` domain for email. To point the site there:
-
-1. Add `public/CNAME` containing `mlenterprises.net`
-2. In `.github/workflows/deploy.yml`, set `SITE_URL: https://mlenterprises.net` and `BASE_PATH: /`
-3. Update the `Sitemap:` line in `public/robots.txt`
-4. Set the custom domain in the repository's Pages settings and add the DNS records GitHub shows
-
-`astro.config.mjs` reads both values from the environment, so no other code change is needed.
+`public/brand/logo.png` is the logo for light backgrounds and `logo-knockout.png` the version for dark ones —
+both were keyed out of the profile PDF's raster logo. **A vector original is still wanted from the client.**
 
 ## Assets
 
-`public/projects/*.webp` are the four real site photographs extracted from the company profile PDF
-(completed RUB, RUB under construction, ICD container yard, box culvert construction). `public/logo.svg`
-is the ML monogram rebuilt as clean vector from the PDF's own path data.
+`public/gallery/*.webp` are 30 real site photographs extracted from the company profile.
+`public/brand/org-chart.webp` is the organisation chart from the same document.
 
-### Still worth getting from the client
+### Still needed from the client
 
-- Higher-resolution project photographs (the four we have came out of a print PDF)
-- Official client logo files, if a logo wall is wanted — the current clients page is typographic because the
-  logos embedded in the profile PDF are ~200 px wide with mismatched backgrounds
-- Confirmation that naming these clients publicly is fine
-- GST / registration numbers and any ISO certifications for the footer
+- Vector logo file (AI / EPS / SVG / CDR)
+- Photographs of the three partners — `PartnerCard` renders a labelled placeholder until then; drop the files
+  into `public/team/` and set `photo` in `src/data/leadership.ts`
+- Site videos (planned as YouTube embeds rather than self-hosted files)
+- ISO or other certification copies
+- Confirmation that naming the clients publicly is fine
+- Confirmation of the company's founding year — an earlier profile said 1972 under a previous firm name, the
+  current profile says 2008; the site follows the current profile
+
+## Deployment
+
+`.github/workflows/deploy.yml` builds and deploys to GitHub Pages on every push to `main`, which is the
+staging/preview target. Production hosting is the client's own Hostinger server — that deploy is not wired up
+yet.

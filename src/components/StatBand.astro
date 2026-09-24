@@ -2,17 +2,26 @@
 import { stats } from '../data/company';
 ---
 
-<section class="border-y border-navy-800/20 bg-navy-900">
-  <div class="container-page grid grid-cols-2 gap-px lg:grid-cols-4">
+<section class="bg-blueprint-dark bg-ink-900">
+  <div class="container-page grid grid-cols-2 lg:grid-cols-4">
     {
       stats.map((stat, i) => (
-        <div data-reveal data-reveal-delay={i * 0.08} class="px-2 py-8 text-center lg:py-12">
-          <p class="display-heading text-5xl text-cyan-brand lg:text-6xl">
+        <div
+          data-reveal
+          data-reveal-delay={i * 0.08}
+          class:list={[
+            'px-3 py-9 text-center lg:py-12',
+            i % 2 === 1 && 'border-l border-white/10',
+            i >= 2 && 'border-t border-white/10 lg:border-t-0',
+            i === 2 && 'lg:border-l lg:border-white/10',
+          ]}
+        >
+          <p class="display-heading text-5xl text-brand-red lg:text-6xl">
             <span data-count={stat.value}>{stat.value}</span>
             {stat.suffix}
           </p>
           <p class="display-heading mt-2 text-lg text-white lg:text-xl">{stat.label}</p>
-          <p class="mt-1 text-xs text-white/50">{stat.note}</p>
+          <p class="mt-1 text-xs text-white/45">{stat.note}</p>
         </div>
       ))
     }

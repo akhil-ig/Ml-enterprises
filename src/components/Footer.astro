@@ -6,22 +6,29 @@ import { url, telHref } from '../lib/url';
 const year = new Date().getFullYear();
 ---
 
-<footer class="bg-navy-950 text-white/70">
+<footer class="bg-blueprint-dark bg-ink-950 text-white/65">
   <div class="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4 lg:py-16">
-    <div class="lg:col-span-1">
-      <div class="flex items-center gap-3">
-        <img src={url('/logo.svg')} alt="" width="32" height="36" class="h-9 w-auto" />
-        <span class="display-heading text-2xl text-white">M L Enterprises</span>
-      </div>
-      <p class="mt-4 max-w-xs text-sm leading-relaxed">
-        Civil construction for railways, roadways, bridges and rail-linked terminals across India. Established {
-          company.establishedYear
-        }, formerly {company.formerName}.
+    <div>
+      <img
+        src={url('/brand/logo-knockout.png')}
+        alt={company.name}
+        width="1025"
+        height="441"
+        class="h-14 w-auto"
+        loading="lazy"
+      />
+      <p class="mt-5 max-w-xs text-sm leading-relaxed">
+        Civil works, PEB buildings, railway siding and allied infrastructure — executed end to end across India
+        since {company.establishedYear}.
       </p>
+      <dl class="mt-5 space-y-1 text-xs text-white/45">
+        <div class="flex gap-2"><dt>GSTIN</dt><dd class="text-white/70">{company.gstin}</dd></div>
+        <div class="flex gap-2"><dt>Udyam</dt><dd class="text-white/70">{company.udyam}</dd></div>
+      </dl>
     </div>
 
     <div>
-      <h2 class="eyebrow text-cyan-brand">Services</h2>
+      <h2 class="eyebrow text-brand-red">Services</h2>
       <ul class="mt-4 space-y-2 text-sm">
         {
           services.map((s) => (
@@ -36,24 +43,25 @@ const year = new Date().getFullYear();
     </div>
 
     <div>
-      <h2 class="eyebrow text-cyan-brand">Company</h2>
+      <h2 class="eyebrow text-brand-red">Company</h2>
       <ul class="mt-4 space-y-2 text-sm">
-        <li><a href={url('/about')} class="transition-colors hover:text-white">About us</a></li>
+        <li><a href={url('/about')} class="transition-colors hover:text-white">About &amp; leadership</a></li>
         <li><a href={url('/projects')} class="transition-colors hover:text-white">Projects</a></li>
+        <li><a href={url('/gallery')} class="transition-colors hover:text-white">Gallery</a></li>
         <li><a href={url('/clients')} class="transition-colors hover:text-white">Clients</a></li>
         <li><a href={url('/contact')} class="transition-colors hover:text-white">Contact</a></li>
       </ul>
     </div>
 
     <div>
-      <h2 class="eyebrow text-cyan-brand">Get in touch</h2>
-      <address class="mt-4 space-y-3 text-sm not-italic leading-relaxed">
+      <h2 class="eyebrow text-brand-red">Get in touch</h2>
+      <address class="mt-4 space-y-3 text-sm leading-relaxed not-italic">
         <p>
           {company.address.line1}<br />
           {company.address.line2}<br />
           {company.address.city}, {company.address.state} – {company.address.pincode}
         </p>
-        <p class="space-y-1">
+        <p>
           {
             company.phones.map((p) => (
               <a href={telHref(p)} class="block transition-colors hover:text-white">
@@ -63,7 +71,13 @@ const year = new Date().getFullYear();
           }
         </p>
         <p>
-          <a href={`mailto:${company.email}`} class="transition-colors hover:text-white">{company.email}</a>
+          {
+            company.emails.map((e) => (
+              <a href={`mailto:${e}`} class="block break-all transition-colors hover:text-white">
+                {e}
+              </a>
+            ))
+          }
         </p>
       </address>
     </div>
@@ -72,7 +86,7 @@ const year = new Date().getFullYear();
   <div class="border-t border-white/10">
     <div class="container-page flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
       <p>© {year} {company.name}. All rights reserved.</p>
-      <p>Rewari, Haryana · Executing PAN India</p>
+      <p class="tracking-wide">{company.tagline}</p>
     </div>
   </div>
 </footer>

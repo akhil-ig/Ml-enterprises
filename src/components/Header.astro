@@ -7,41 +7,46 @@ const nav = [
   { label: 'About', href: url('/about') },
   { label: 'Services', href: url('/services') },
   { label: 'Projects', href: url('/projects') },
+  { label: 'Gallery', href: url('/gallery') },
   { label: 'Clients', href: url('/clients') },
   { label: 'Contact', href: url('/contact') },
 ];
 
 const current = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => {
-  const h = href.replace(/\/$/, '') || '/';
-  return h === current;
-};
+const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
 ---
 
-<header
-  id="site-header"
-  class="sticky top-0 z-50 border-b border-white/10 bg-navy-900/95 backdrop-blur transition-[padding,background] duration-300"
->
-  <div class="container-page flex items-center justify-between gap-4 py-3 md:py-4">
-    <a href={url('/')} class="flex items-center gap-3 text-white">
-      <img src={url('/logo.svg')} alt="" width="34" height="38" class="h-9 w-auto" />
-      <span class="leading-none">
-        <span class="display-heading block text-xl tracking-wide md:text-2xl">M L Enterprises</span>
-        <span class="block text-[0.6rem] font-semibold tracking-[0.28em] text-cyan-brand uppercase">
-          LLP · Since {company.establishedYear}
-        </span>
-      </span>
+<div class="hidden border-b border-ink-800 bg-ink-900 lg:block">
+  <div class="container-page flex items-center justify-between py-2 text-xs text-white/60">
+    <p>{company.address.city}, {company.address.state} · Executing PAN India</p>
+    <p class="flex items-center gap-5">
+      <span>GSTIN {company.gstin}</span>
+      <a href={`mailto:${company.emails[0]}`} class="transition-colors hover:text-white">{company.emails[0]}</a>
+    </p>
+  </div>
+</div>
+
+<header id="site-header" class="sticky top-0 z-50 border-b border-sand-200 bg-white/95 backdrop-blur">
+  <div class="container-page flex items-center justify-between gap-4 py-3">
+    <a href={url('/')} class="flex items-center" aria-label={`${company.name} — home`}>
+      <img
+        src={url('/brand/logo.png')}
+        alt={company.name}
+        width="1025"
+        height="441"
+        class="h-11 w-auto md:h-13"
+      />
     </a>
 
-    <nav aria-label="Main" class="hidden items-center gap-1 lg:flex">
+    <nav aria-label="Main" class="hidden items-center gap-0.5 lg:flex">
       {
         nav.map((item) => (
           <a
             href={item.href}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
-              'display-heading rounded px-3 py-2 text-lg tracking-wide transition-colors',
-              isActive(item.href) ? 'text-cyan-brand' : 'text-white/80 hover:text-white',
+              'display-heading rounded px-3 py-2 text-lg transition-colors',
+              isActive(item.href) ? 'text-brand-red' : 'text-ink-800 hover:text-brand-red',
             ]}
           >
             {item.label}
@@ -50,7 +55,7 @@ const isActive = (href: string) => {
       }
       <a
         href={telHref(company.phones[0])}
-        class="display-heading ml-3 rounded bg-red-brand px-5 py-2.5 text-lg tracking-wide text-white transition-colors hover:bg-red-dark"
+        class="display-heading ml-3 rounded bg-brand-red px-5 py-2.5 text-lg text-white transition-colors hover:bg-brand-red-dark"
       >
         Call now
       </a>
@@ -61,25 +66,25 @@ const isActive = (href: string) => {
       type="button"
       aria-expanded="false"
       aria-controls="mobile-nav"
-      class="flex h-11 w-11 items-center justify-center rounded border border-white/20 text-white lg:hidden"
+      class="flex h-11 w-11 items-center justify-center rounded border border-sand-300 text-ink-800 lg:hidden"
     >
       <span class="sr-only">Toggle menu</span>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M3 6h18M3 12h18M3 18h18" />
+        <path d="M3 6h18M3 12h18M3 18h18"></path>
       </svg>
     </button>
   </div>
 
-  <nav id="mobile-nav" aria-label="Mobile" class="hidden border-t border-white/10 bg-navy-900 lg:hidden">
-    <div class="container-page flex flex-col py-3">
+  <nav id="mobile-nav" aria-label="Mobile" class="hidden border-t border-sand-200 bg-white lg:hidden">
+    <div class="container-page flex flex-col py-2">
       {
         nav.map((item) => (
           <a
             href={item.href}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
-              'display-heading border-b border-white/5 py-3 text-xl tracking-wide',
-              isActive(item.href) ? 'text-cyan-brand' : 'text-white/85',
+              'display-heading border-b border-sand-100 py-3 text-xl',
+              isActive(item.href) ? 'text-brand-red' : 'text-ink-800',
             ]}
           >
             {item.label}
@@ -88,7 +93,7 @@ const isActive = (href: string) => {
       }
       <a
         href={telHref(company.phones[0])}
-        class="display-heading mt-4 rounded bg-red-brand px-5 py-3 text-center text-xl tracking-wide text-white"
+        class="display-heading mt-4 mb-2 rounded bg-brand-red px-5 py-3 text-center text-xl text-white"
       >
         Call {company.phones[0]}
       </a>
@@ -108,8 +113,9 @@ const isActive = (href: string) => {
 
   const header = document.getElementById('site-header');
   const onScroll = () => {
-    header?.classList.toggle('shadow-lg', window.scrollY > 8);
-    header?.classList.toggle('shadow-black/30', window.scrollY > 8);
+    const scrolled = window.scrollY > 8;
+    header?.classList.toggle('shadow-md', scrolled);
+    header?.classList.toggle('shadow-ink-900/5', scrolled);
   };
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
